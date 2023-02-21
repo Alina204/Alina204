@@ -11,6 +11,7 @@ public class NetworkCommands : MonoBehaviour
     public Button startHostButton;
     public Button startClientButton;
     public Button disconnectButton;
+  
 
 #if UNITY_SERVER && !UNITY_EDITOR
     private void Start()
@@ -21,6 +22,8 @@ public class NetworkCommands : MonoBehaviour
     private void Start()
     {
         disconnectButton.gameObject.SetActive(false);
+        
+
     }
     public void ConnectToServer()
     {
