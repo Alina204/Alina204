@@ -7,13 +7,16 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    private float playerSpeed = 2.0f;
+    [SerializeField] private float currentSpeed;
+    private float normalSpeed = 3.0f;
+    private float speed = 1.5f;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
 
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+        currentSpeed = normalSpeed;
     }
 
     void Update()
@@ -24,8 +27,17 @@ public class PlayerMovement : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
+        if (gameObject.transform.Find("Collectible(Clone)") != null)
+        {
+            currentSpeed = speed;
+        }
+        else
+        {
+            currentSpeed = normalSpeed;
+        }
+
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        controller.Move(move * Time.deltaTime * currentSpeed);
 
         if (move != Vector3.zero)
         {
