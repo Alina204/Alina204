@@ -1,29 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using TMPro;
 
 public class TriggerSpawner : MonoBehaviour
 {
-    public GameObject prefab;
-    private bool hasEnteredOnce;
+    public GameObject collectablePrefab;
+    GameObject go;
+    private int p1Score = 0;
+    private int p2Score = 0;
+    private int p3Score = 0;
+    private int p4Score = 0;
+    public TMP_Text scoreText;
+
+    private void Start()
+    {
+        NetworkManager.Singleton.OnServerStarted += RespawnCollectible;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (!hasEnteredOnce)
+            if (go != null && go.transform.parent.CompareTag("Player"))
             {
-                hasEnteredOnce = true;
-                Instantiate(prefab, Vector3.up, Quaternion.identity);
+                if (gameObject.CompareTag("1") && other.transform.Find("1"))
+                {
+                    p1Score += 1;
+                }
+                else if (gameObject.CompareTag("2") && other.transform.Find("2"))
+                {
+                    p2Score += 1;
+                }
+                else if (gameObject.CompareTag("3") && other.transform.Find("3"))
+                {
+                    p3Score += 1;
+                }
+                else if (gameObject.CompareTag("4") && other.transform.Find("4"))
+                {
+                    p4Score += 1;
+                }
+                GameObject[] array = GameObject.FindGameObjectsWithTag("Collectible");
+                foreach (var item in array)
+                {
+                    item.GetComponent<NetworkObject>().Despawn(destroy: true);
+                }
+                RespawnCollectible();
+                UpdateScores();
             }
-            else if (hasEnteredOnce)
-            {
-                hasEnteredOnce = false;
-                GameObject objectToDelete = GameObject.FindGameObjectWithTag("Ball");
-                Destroy(objectToDelete);
-            }
+
 
         }
-
     }
+
+    private void RespawnCollectible()
+    {
+        go = Instantiate(collectablePrefab, new Vector3(0, 0.5f, 0), Quaternion.identity);
+        go.GetComponent<NetworkObject>().Spawn();
+    }
+
+    private void UpdateScores()
+    {
+        scoreText.text = "Player 1 Score: " + p1Score + "<br>Player 2 Score: " + p2Score + "<br>Player 3 Score: " + p3Score + "<br>Player 4 Score: " + p4Score;
+    }
+
 }

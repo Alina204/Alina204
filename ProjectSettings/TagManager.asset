@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Collectible
   - Ball
+  - 1
+  - 2
+  - 3
+  - 4
   layers:
   - Default
   - TransparentFX
