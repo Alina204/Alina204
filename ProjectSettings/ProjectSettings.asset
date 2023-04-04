@@ -863,11 +863,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 77042cb4-07b7-4ab8-af16-2885db760981
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: OGP demo
+  organizationId: alina204
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
