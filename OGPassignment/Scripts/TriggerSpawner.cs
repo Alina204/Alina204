@@ -13,6 +13,7 @@ public class TriggerSpawner : MonoBehaviour
     private int p3Score = 0;
     private int p4Score = 0;
     public TMP_Text scoreText;
+    [SerializeField] private GameObject networkManagerObject;
 
     private void Start()
     {
@@ -48,6 +49,7 @@ public class TriggerSpawner : MonoBehaviour
                 }
                 RespawnCollectible();
                 UpdateScores();
+                networkManagerObject.GetComponent<NetworkCommands>().WinCheck(p1Score, p2Score, p3Score, p4Score, scoreText);
             }
 
 
